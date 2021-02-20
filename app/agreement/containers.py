@@ -1,7 +1,7 @@
 from dependency_injector import containers, providers
 from dependency_injector.ext import aiohttp as ext_aiohttp
 
-from app.agreement.controllers import create_agreement, get_agreements, select_agreement
+from app.agreement.controllers import create_agreement, get_agreements, select_agreement, get_current_agreement
 from app.agreement.services import AgreementCreator
 from app.agreement.transformers import AgreementTransformer
 
@@ -43,4 +43,11 @@ class AgreementPackageContainer(containers.DeclarativeContainer):
         agreement_mapper=mappers.agreement_mapper,
         order_mapper=mappers.order_mapper,
         agreement_transformer=agreement_transformer
+    )
+
+    get_current_agreement = ext_aiohttp.View(
+        get_current_agreement,
+        driver_mapper=mappers.driver_mapper,
+        agreement_mapper=mappers.agreement_mapper,
+        order_mapper=mappers.order_mapper,
     )

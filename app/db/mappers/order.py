@@ -39,3 +39,20 @@ class OrderMapper(Mapper):
 
             return [self.entity_cls(**i) for i in data]
 
+    async def find_current_for_driver(self, driver):
+        async with self.engine.acquire() as conn:
+            query = (
+                self.model
+                .select()
+                .where(
+                    (self.model.c.driver_id == driver.id)
+                    & (self.model.c.status != PassengerOrderStatus.COMPLETED.value)
+                )
+            )
+            result = await conn.execute(query)
+            data = await result.fetchone()
+
+            if data is None:
+                return None
+
+            return self.entity_cls(**data)

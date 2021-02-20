@@ -23,13 +23,16 @@ def setup_routes(app):
         'GET', '/api/orders', container.order.get_orders.as_view()
     )
     app.router.add_route(
-        'GET', '/api/orders/{order_id}', container.order.get_order_status.as_view()
+        'GET', '/api/orders/{order_id}', container.order.get_order.as_view()
     )
     app.router.add_route(
         'POST', '/api/orders/{order_id}/move_status', container.order.update_order_status.as_view()
     )
     app.router.add_route(
         'POST', '/api/agreements', container.agreement.create_agreement.as_view()
+    )
+    app.router.add_route(
+        'GET', '/api/agreements/current', container.agreement.get_current_agreement.as_view()
     )
     app.router.add_route(
         'GET', '/api/orders/{order_id}/agreements', container.agreement.get_agreements.as_view()

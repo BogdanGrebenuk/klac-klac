@@ -5,12 +5,10 @@ from aiohttp import web
 
 from app.order.domain.status import PassengerOrderStatus, DriverOrderStatus
 from app.order.dto import CreateOrderDto
-
-
-# POST /api/orders
 from app.utils.mapper import EntityNotFound
 
 
+# POST /api/orders
 async def create_order(
         request,
         passenger_mapper,
@@ -43,7 +41,7 @@ async def create_order(
     })
 
 
-# GET /api/orders - only for driver
+# GET /api/orders - polymorphic endpoint
 async def get_orders(
         request,
         driver_mapper,
@@ -80,39 +78,67 @@ async def get_orders_for_passenger(passenger, order_mapper, order_transformer):
     })
 
 
-# GET /api/orders/{order_id}
-async def get_order_status(
+# GET /api/orders/{order_id} - polymorphic endpoint (order_id should be "current" for driver)
+async def get_order(
         request,
         driver_mapper,
         passenger_mapper,
         order_mapper,
-        agreement_mapper
+        order_transformer
         ):
-    order = await order_mapper.get_one_by(request.match_info.get('order_id'))
-
     user_id = request.get('user_id')
+
     driver = await driver_mapper.find_one_by(user_id=user_id)
     if driver is not None:
-        return await get_order_status_for_driver(
-            order,
+        return await get_order_for_driver(
+            request,
             driver,
-            agreement_mapper
+            order_mapper,
+            order_transformer
         )
 
     passenger = await passenger_mapper.find_one_by(user=user_id)
     if passenger is not None:
-        return await get_order_status_for_passenger(
-            order,
-            passenger
+        return await get_order_for_passenger(
+            request,
+            passenger,
+            order_mapper,
+            order_transformer
         )
 
     raise EntityNotFound('There is no user with such id')
 
 
-async def get_order_status_for_passenger(
-        order,
-        passenger
+async def get_order_for_driver(
+        request,
+        driver,
+        order_mapper,
+        order_transformer
         ):
+    order_id = request.match_info.get('order_id')
+    if order_id != 'current':
+        return web.json_response({
+            'error': 'Use "current" order api.',
+            'payload': {}
+        }, status=400)
+
+    order = await order_mapper.find_current_for_driver(driver)
+    if order is None:
+        raise EntityNotFound("You have no current order")
+
+    return web.json_response({
+        'order': await order_transformer.transform(order)
+    })
+
+
+async def get_order_for_passenger(
+        request,
+        passenger,
+        order_mapper,
+        order_transformer
+        ):
+    order = await order_mapper.get_one_by(id=request.match_info.get('order_id'))
+
     if order.passenger_id != passenger.id:
         return web.json_response({
             'error': 'This is not your order!',
@@ -120,38 +146,7 @@ async def get_order_status_for_passenger(
         }, status=403)
 
     return web.json_response({
-        'status': order.status
-    })
-
-
-async def get_order_status_for_driver(
-        order,
-        driver,
-        agreement_mapper
-        ):
-    related_agreements = await agreement_mapper.find_by(
-        order_id=order.id,
-        driver_id=driver.id
-    )
-
-    if len(related_agreements) == 0:
-        return web.json_response({
-            'error': 'Driver has not posted any agreement yet to this order',
-            'payload': {}
-        }, status=400)
-
-    if order.driver_id is None:
-        return web.json_response({
-            'status': DriverOrderStatus.PENDING.value
-        })
-
-    if order.driver_id != driver.id:
-        return web.json_response({
-            'status': DriverOrderStatus.REJECTED.value
-        })
-
-    return web.json_response({
-        'status': DriverOrderStatus.ACCEPTED.value
+        'order': await order_transformer.transform(order)
     })
 
 
@@ -162,7 +157,7 @@ async def update_order_status(
         driver_mapper,
         order_transformer
         ):
-    order = await order_mapper.get_one_by(request.match_info.get('order_id'))
+    order = await order_mapper.get_one_by(id=request.match_info.get('order_id'))
     driver = await driver_mapper.get_one_by(user_id=request.get('user_id'))
 
     if order.driver_id != driver.id:

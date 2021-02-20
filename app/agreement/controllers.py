@@ -4,10 +4,12 @@ import uuid
 from aiohttp import web
 
 from app.agreement.dto import CreateAgreementDto
-from app.order.domain.status import PassengerOrderStatus
-
+from app.order.domain.status import PassengerOrderStatus, DriverOrderStatus
 
 # POST /api/agreements - only for drivers
+from app.utils.mapper import EntityNotFound
+
+
 async def create_agreement(
         request,
         driver_mapper,
@@ -42,6 +44,35 @@ async def create_agreement(
 
     return web.json_response({
         'agreement': await agreement_transformer.transform(agreement)
+    })
+
+
+# GET /api/agreements/current - only for drivers
+async def get_current_agreement(
+        request,
+        driver_mapper,
+        agreement_mapper,
+        order_mapper
+        ):
+    driver = await driver_mapper.get_one_by(user_id=request.get('user_id'))
+    current_agreement = await agreement_mapper.find_current(driver)
+    if current_agreement is None:
+        raise EntityNotFound("You have no current agreement")
+
+    order = await order_mapper.find_by(id=current_agreement.order_id)
+
+    if order.driver_id is None:
+        return web.json_response({
+            'status': DriverOrderStatus.PENDING.value
+        })
+
+    if order.driver_id != driver.id:
+        return web.json_response({
+            'status': DriverOrderStatus.REJECTED.value
+        })
+
+    return web.json_response({
+        'status': DriverOrderStatus.ACCEPTED.value
     })
 
 

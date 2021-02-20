@@ -4,7 +4,7 @@ from dependency_injector.ext import aiohttp as ext_aiohttp
 from app.order.controllers import (
     create_order,
     get_orders,
-    get_order_status,
+    get_order,
     update_order_status
 )
 from app.order.services import OrderCreator, OrderTimeoutChecker
@@ -51,12 +51,12 @@ class OrderPackageContainer(containers.DeclarativeContainer):
         order_transformer=order_transformer,
     )
 
-    get_order_status = ext_aiohttp.View(
-        get_order_status,
+    get_order = ext_aiohttp.View(
+        get_order,
         driver_mapper=mappers.driver_mapper,
         passenger_mapper=mappers.passenger_mapper,
         order_mapper=mappers.order_mapper,
-        agreement_mapper=mappers.agreement_mapper,
+        order_transformer=order_transformer,
     )
 
     update_order_status = ext_aiohttp.View(

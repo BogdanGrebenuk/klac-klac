@@ -34,3 +34,6 @@ def setup_routes(app):
     app.router.add_route(
         'POST', '/api/agreements/{agreement_id}/select', container.agreement.select_agreement.as_view()
     )
+    app.router.add_route(
+            'POST', '/api/blacklist', container.blacklist.ban_driver.as_view()
+        )

@@ -5,6 +5,7 @@ from dependency_injector.ext import aiohttp as ext_aiohttp
 
 from app.agreement.containers import AgreementPackageContainer
 from app.agreement.domain.entity import Agreement
+from app.blacklist.containers import BlackListPackageContainer
 from app.blacklist.domain.entity import BlackList
 from app.db import models
 from app.db.mappers.agreement import AgreementMapper
@@ -178,6 +179,12 @@ class ApplicationContainer(containers.DeclarativeContainer):
 
     agreement = providers.Container(
         AgreementPackageContainer,
+        application_utils=application_utils,
+        mappers=mappers,
+    )
+
+    blacklist = providers.Container(
+        BlackListPackageContainer,
         application_utils=application_utils,
         mappers=mappers,
     )

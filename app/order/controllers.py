@@ -3,6 +3,7 @@ import uuid
 
 from aiohttp import web
 
+from app.order.domain.status import PassengerOrderStatus, DriverOrderStatus
 from app.order.dto import CreateOrderDto
 
 
@@ -25,7 +26,7 @@ async def create_order(
             passenger_id=passenger.id,
             from_=body.get('from'),
             to=body.get('to'),
-            status='test'
+            status=PassengerOrderStatus.SEARCHING.value
         ),
         body.get('image'),
         request.app.public_dir
@@ -49,7 +50,7 @@ async def get_orders(
     user_id = request.get('user_id')
     # to ensure driver exists
     driver = await driver_mapper.get_one_by(user_id=user_id)
-    orders = await order_mapper.find_all()
+    orders = await order_mapper.find_by(status=PassengerOrderStatus.SEARCHING.value)
     return web.json_response({
         'orders': await order_transformer.transform_many(orders)
     })
@@ -59,13 +60,54 @@ async def get_orders(
 async def get_order_status(
         request,
         driver_mapper,
+        passenger_mapper,
         order_mapper,
         agreement_mapper
         ):
-    user_id = request.get('user_id')
-    # to ensure driver exists
-    driver = await driver_mapper.get_one_by(user_id=user_id)
     order = await order_mapper.get_one_by(request.match_info.get('order_id'))
+
+    user_id = request.get('user_id')
+    driver = await driver_mapper.find_one_by(user_id=user_id)
+    if driver is not None:
+        return await get_order_status_for_driver(
+            order,
+            driver,
+            agreement_mapper
+        )
+
+    passenger = await passenger_mapper.find_one_by(user=user_id)
+    if passenger is not None:
+        return await get_order_status_for_passenger(
+            order,
+            passenger
+        )
+
+    return web.json_response({
+        'error': 'How did you get there?',
+        'payload': {}
+    }, status=400)
+
+
+async def get_order_status_for_passenger(
+        order,
+        passenger
+        ):
+    if order.passenger_id != passenger.id:
+        return web.json_response({
+            'error': 'This is not your order!',
+            'payload': {}
+        }, status=403)
+
+    return web.json_response({
+        'status': order.status
+    })
+
+
+async def get_order_status_for_driver(
+        order,
+        driver,
+        agreement_mapper
+        ):
     related_agreements = await agreement_mapper.find_by(
         order_id=order.id,
         driver_id=driver.id
@@ -79,14 +121,14 @@ async def get_order_status(
 
     if order.driver_id is None:
         return web.json_response({
-            'status': 'Pending'  # TODO: status
+            'status': DriverOrderStatus.PENDING.value
         })
 
     if order.driver_id != driver.id:
         return web.json_response({
-            'status': 'Rejected'  # TODO: status
+            'status': DriverOrderStatus.REJECTED.value
         })
 
     return web.json_response({
-        'status': 'Accepted'  # TODO: status
+        'status': DriverOrderStatus.ACCEPTED.value
     })

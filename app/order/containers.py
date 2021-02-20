@@ -48,6 +48,7 @@ class OrderPackageContainer(containers.DeclarativeContainer):
     get_order_status = ext_aiohttp.View(
         get_order_status,
         driver_mapper=mappers.driver_mapper,
+        passenger_mapper=mappers.passenger_mapper,
         order_mapper=mappers.order_mapper,
         agreement_mapper=mappers.agreement_mapper,
     )

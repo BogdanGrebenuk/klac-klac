@@ -4,6 +4,7 @@ import uuid
 from aiohttp import web
 
 from app.agreement.dto import CreateAgreementDto
+from app.order.domain.status import PassengerOrderStatus
 
 
 # POST /api/agreements - only for drivers
@@ -20,6 +21,14 @@ async def create_agreement(
     # to ensure driver exists
     driver = await driver_mapper.get_one_by(user_id=user_id)
     order = await order_mapper.get_one_by(id=body.get('order_id'))
+
+    if order.status != PassengerOrderStatus.SEARCHING.value:
+        return web.json_response({
+            'error': 'Order is not in "searching" status!',
+            'payload': {
+                'status': order.status
+            }
+        }, status=400)
 
     agreement = await agreement_creator.create_agreement(
         CreateAgreementDto(
@@ -57,7 +66,7 @@ async def get_agreements(
             'payload': {
                 'driver_id': order.driver_id
             }
-        })
+        }, status=400)
 
     agreements = await agreement_mapper.find_by(order_id=order_id)
 
@@ -75,7 +84,7 @@ async def select_agreement(
         agreement_transformer
         ):
     user_id = request.get('user_id')
-    # to ensure driver exists
+    # to ensure passenger exists
     passenger = await passenger_mapper.get_one_by(user_id=user_id)
 
     agreement_id = request.match_info.get('agreement_id')
@@ -83,6 +92,7 @@ async def select_agreement(
     order = await order_mapper.get_one_by(id=agreement.order_id)
 
     order.driver_id = agreement.driver_id
+    order.status = PassengerOrderStatus.IN_MID_COURSE.value
 
     await order_mapper.update(order)
 

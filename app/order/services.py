@@ -4,6 +4,7 @@ import asyncio
 
 from app.order import schemas
 from app.order.domain.entity import Order
+from app.order.domain.status import PassengerOrderStatus
 
 
 class OrderCreator:
@@ -66,4 +67,6 @@ class OrderTimeoutChecker:
 
         self.logger.info(f"[{order_id}] select the first driver from agreement")
         order.driver_id = agreements[0].driver_id
+        order.status = PassengerOrderStatus.IN_MID_COURSE.value
+
         await self.order_mapper.update(order)

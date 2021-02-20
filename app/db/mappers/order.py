@@ -26,7 +26,7 @@ class OrderMapper(Mapper):
                         ~exists(
                             select([BlackListModel])
                             .where(
-                                (BlackListModel.c.passenger_id == self.model.passenger_id)
+                                (BlackListModel.c.passenger_id == self.model.c.passenger_id)
                                 & (BlackListModel.c.ban_driver_id == driver.id)
                             )
                         )
@@ -34,7 +34,7 @@ class OrderMapper(Mapper):
                 )
             )
 
-            result = await conn.execut(query)
+            result = await conn.execute(query)
             data = await result.fetchall()
 
             return [self.entity_cls(**i) for i in data]

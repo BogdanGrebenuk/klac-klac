@@ -59,6 +59,7 @@ class UserPackageContainer(containers.DeclarativeContainer):
     register_user = ext_aiohttp.View(
         register_user,
         registrar=registrar,
+        authenticator=authenticator,
         user_mapper=mappers.user_mapper,
         passenger_mapper=mappers.passenger_mapper,
         driver_mapper=mappers.driver_mapper,

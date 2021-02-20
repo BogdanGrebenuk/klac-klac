@@ -24,6 +24,7 @@ async def authenticate_user(request, authenticator):
 async def register_user(
         request,
         registrar,
+        authenticator,
         user_mapper,
         user_transformer,
         passenger_mapper,
@@ -62,7 +63,17 @@ async def register_user(
 
     await user_mapper.update(user)
 
-    return web.json_response(await user_transformer.transform(user))
+    token = await authenticator.authenticate(
+        AuthenticateUserDto(
+            email=body.get('email'),
+            password=body.get('password')
+        )
+    )
+
+    return web.json_response({
+        'user': await user_transformer.transform(user),
+        'token': token
+    })
 
 
 async def logout_user(request, user_mapper):

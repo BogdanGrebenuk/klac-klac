@@ -8,8 +8,15 @@ class PassengerOrderStatus(Enum):
     COMPLETED = 'completed'
 
     @classmethod
-    def get_roles(cls):
+    def get_statuses(cls):
         return [i.value for i in cls]
+
+    @classmethod
+    def get_manually_updatable_statuses(cls):
+        return [
+            cls.IN_MID_COURSE.value,
+            cls.IN_PROGRESS.value
+        ]
 
 
 class DriverOrderStatus(Enum):

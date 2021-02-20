@@ -132,3 +132,50 @@ async def get_order_status_for_driver(
     return web.json_response({
         'status': DriverOrderStatus.ACCEPTED.value
     })
+
+
+# POST /api/orders/{order_id}/move_status
+async def update_order_status(
+        request,
+        order_mapper,
+        driver_mapper,
+        order_transformer
+        ):
+    order = await order_mapper.get_one_by(request.match_info.get('order_id'))
+    driver = await driver_mapper.get_one_by(user_id=request.get('user_id'))
+
+    if order.driver_id != driver.id:
+        return web.json_response({
+            'error': 'This is not your order!',
+            'payload': {}
+        }, status=400)
+
+    if order.status not in PassengerOrderStatus.get_manually_updatable_statuses():
+        return web.json_response({
+            'error': 'The order in the current status is not updatable',
+            'payload': {
+                'currentStatus': order.status
+            }
+        }, status=400)
+
+    await move_to_the_next_status(order)
+
+    await order_mapper.update(order)
+
+    return web.json_response({
+        'order': await order_transformer.transform(order)
+    })
+
+
+async def move_to_the_next_status(order):
+    current_status = order.status
+
+    if current_status == PassengerOrderStatus.IN_MID_COURSE.value:
+        order.status = PassengerOrderStatus.IN_PROGRESS.value
+        return
+
+    if current_status == PassengerOrderStatus.IN_PROGRESS.value:
+        order.status = PassengerOrderStatus.COMPLETED.value
+        return
+
+    raise web.HTTPBadRequest(text="You shouldn't be here")

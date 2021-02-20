@@ -52,3 +52,10 @@ Agreement = sa.Table(
     sa.Column('driver_id', sa.Text, sa.ForeignKey("driver.id"), nullable=False),
     sa.Column('order_id', sa.Text, sa.ForeignKey("order.id"), nullable=False),
 )
+
+BlackList = sa.Table(
+    'blacklist',
+    metadata,
+    sa.Column('ban_driver_id', sa.Text, sa.ForeignKey("driver.id"), nullable=False),
+    sa.Column('passenger_id', sa.Text, sa.ForeignKey("passenger.id"), nullable=False),
+)

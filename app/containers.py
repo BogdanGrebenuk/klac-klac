@@ -5,8 +5,10 @@ from dependency_injector.ext import aiohttp as ext_aiohttp
 
 from app.agreement.containers import AgreementPackageContainer
 from app.agreement.domain.entity import Agreement
+from app.blacklist.domain.entity import BlackList
 from app.db import models
 from app.db.mappers.agreement import AgreementMapper
+from app.db.mappers.blacklist import BlackListMapper
 from app.db.mappers.driver import DriverMapper
 from app.db.mappers.order import OrderMapper
 from app.db.mappers.passenger import PassengerMapper
@@ -97,6 +99,13 @@ class MappersContainer(containers.DeclarativeContainer):
         engine=gateways.engine,
         model=models.Agreement,
         entity_cls=Agreement
+    )
+
+    blacklist_mapper = providers.Singleton(
+        BlackListMapper,
+        engine=gateways.engine,
+        model=models.BlackList,
+        entity_cls=BlackList
     )
 
 

@@ -6,7 +6,7 @@ from app.blacklist.dto import CreateBlackListDto
 from app.blacklist import schemas
 
 # POST /api/blacklist
-async def ban_driver(request, validator, blacklist_mapper):
+async def ban_driver(request, validator, blacklist_mapper, driver_mapper):
     body = await request.json()
 
     blacklist_dt = CreateBlackListDto(
@@ -14,6 +14,8 @@ async def ban_driver(request, validator, blacklist_mapper):
         passenger_id=request.get('user_id'),
     )
     validator.validate(blacklist_dt, schemas.CreateBlackListSchema)
+
+    await driver_mapper.get_one_by(user_id=blacklist_dt.ban_driver_id)
 
     blacklist = BlackList(ban_driver_id=blacklist_dt.ban_driver_id, passenger_id=blacklist_dt.passenger_id)
 

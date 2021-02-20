@@ -13,5 +13,6 @@ class BlackListPackageContainer(containers.DeclarativeContainer):
     ban_driver = ext_aiohttp.View(
         ban_driver,
         blacklist_mapper=mappers.blacklist_mapper,
-        validator=application_utils.validator
+        validator=application_utils.validator,
+        driver_mapper=mappers.driver_mapper
     )

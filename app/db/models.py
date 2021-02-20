@@ -60,3 +60,11 @@ BlackList = sa.Table(
     sa.Column('ban_driver_id', sa.Text, sa.ForeignKey("driver.id", ondelete="CASCADE"), nullable=False),
     sa.Column('passenger_id', sa.Text, sa.ForeignKey("passenger.id", ondelete="CASCADE"), nullable=False),
 )
+
+
+WhiteList = sa.Table(
+    'whitelist',
+    metadata,
+    sa.Column('driver_id', sa.Text, sa.ForeignKey("driver.id", ondelete="CASCADE"), nullable=False),
+    sa.Column('passenger_id', sa.Text, sa.ForeignKey("passenger.id", ondelete="CASCADE"), nullable=False),
+)

@@ -1,4 +1,3 @@
-
 from aiohttp import web
 
 from app.blacklist.domain.entity import BlackList

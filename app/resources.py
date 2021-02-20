@@ -39,4 +39,7 @@ def setup_routes(app):
     )
     app.router.add_route(
             'POST', '/api/blacklist', container.blacklist.ban_driver.as_view()
-        )
+    )
+    app.router.add_route(
+        'POST', '/api/whitelist', container.whitelist.promote_driver.as_view()
+    )

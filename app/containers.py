@@ -14,6 +14,7 @@ from app.db.mappers.driver import DriverMapper
 from app.db.mappers.order import OrderMapper
 from app.db.mappers.passenger import PassengerMapper
 from app.db.mappers.user import UserMapper
+from app.db.mappers.whitelist import WhiteListMapper
 from app.driver.domain.entity import Driver
 from app.middlewares import error_handler, create_jwt_middleware, request_logger, additional_token_checker
 from app.order.containers import OrderPackageContainer
@@ -28,6 +29,8 @@ from app.utils.executor import (
     init_thread_pool
 )
 from app.utils.validator import Validator
+from app.whitelist.containers import WhiteListPackageContainer
+from app.whitelist.domain.entity import WhiteList
 
 
 class Gateways(containers.DeclarativeContainer):
@@ -109,6 +112,13 @@ class MappersContainer(containers.DeclarativeContainer):
         entity_cls=BlackList
     )
 
+    whitelist_mapper = providers.Singleton(
+        WhiteListMapper,
+        engine=gateways.engine,
+        model=models.WhiteList,
+        entity_cls=WhiteList
+    )
+
 
 class MiddlewareContainer(containers.DeclarativeContainer):
 
@@ -185,6 +195,12 @@ class ApplicationContainer(containers.DeclarativeContainer):
 
     blacklist = providers.Container(
         BlackListPackageContainer,
+        application_utils=application_utils,
+        mappers=mappers,
+    )
+
+    whitelist = providers.Container(
+        WhiteListPackageContainer,
         application_utils=application_utils,
         mappers=mappers,
     )

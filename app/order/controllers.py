@@ -50,7 +50,7 @@ async def get_orders(
     user_id = request.get('user_id')
     # to ensure driver exists
     driver = await driver_mapper.get_one_by(user_id=user_id)
-    orders = await order_mapper.find_by(status=PassengerOrderStatus.SEARCHING.value)
+    orders = await order_mapper.find_pending_orders_for_driver(driver)
     return web.json_response({
         'orders': await order_transformer.transform_many(orders)
     })

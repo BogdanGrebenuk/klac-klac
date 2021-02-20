@@ -7,4 +7,4 @@ from app.utils.mapper import Entity
 class Agreement(Entity):
     id: str
     driver_id: str
-    passenger_id: str
+    order_id: str

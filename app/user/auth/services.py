@@ -37,7 +37,9 @@ class Registrar:
             patronymic=user_dto.patronymic,
             email=user_dto.email,
             password=hashed_password,
-            role=user_dto.role
+            role=user_dto.role,
+            passenger_id=None,
+            driver_id=None
         )
 
         return user

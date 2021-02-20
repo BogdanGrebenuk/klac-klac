@@ -43,6 +43,8 @@ async def register_user(
         )
     )
 
+    await user_mapper.create(user)
+
     if user.role == UserRole.PASSENGER.value:
         passenger = Passenger(
             id=user.id,
@@ -58,7 +60,7 @@ async def register_user(
         user.driver_id = driver.id
         await driver_mapper.create(driver)
 
-    await user_mapper.create(user)
+    await user_mapper.update(user)
 
     return web.json_response(await user_transformer.transform(user))
 

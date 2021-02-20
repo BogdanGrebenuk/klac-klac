@@ -33,14 +33,6 @@ Passenger = sa.Table(
     sa.Column('user_id', sa.Text, sa.ForeignKey("user.id"), nullable=False),
 )
 
-Agreement = sa.Table(
-    'agreement',
-    metadata,
-    sa.Column('id', sa.Text, primary_key=True),
-    sa.Column('driver_id', sa.Text, sa.ForeignKey("driver.id"), nullable=False),
-    sa.Column('passenger_id', sa.Text, sa.ForeignKey("passenger.id"), nullable=False),
-)
-
 Order = sa.Table(
     'order',
     metadata,
@@ -50,4 +42,12 @@ Order = sa.Table(
     sa.Column('status', sa.Text, nullable=False),
     sa.Column('driver_id', sa.Text, sa.ForeignKey("driver.id"), nullable=True),
     sa.Column('passenger_id', sa.Text, sa.ForeignKey("passenger.id"), nullable=False),
+)
+
+Agreement = sa.Table(
+    'agreement',
+    metadata,
+    sa.Column('id', sa.Text, primary_key=True),
+    sa.Column('driver_id', sa.Text, sa.ForeignKey("driver.id"), nullable=False),
+    sa.Column('order_id', sa.Text, sa.ForeignKey("order.id"), nullable=False),
 )

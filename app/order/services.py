@@ -14,8 +14,10 @@ class OrderCreator:
     async def create(self, create_order_dto, image, path):
         self.validator.validate(create_order_dto, schemas.CreateOrderSchema)
 
-        file_name = f"{uuid.uuid4()}{image.filename}"
-        save_file_field_image(image.file, path + '/' + file_name)
+        file_name = None
+        if image is not None:
+            file_name = f"{uuid.uuid4()}{image.filename}"
+            save_file_field_image(image.file, path + '/' + file_name)
 
         order = Order(
             id=create_order_dto.id,

@@ -23,6 +23,9 @@ def setup_routes(app):
         'GET', '/api/orders', container.order.get_orders.as_view()
     )
     app.router.add_route(
+        'GET', '/api/orders/{order_id}', container.order.get_order_status.as_view()
+    )
+    app.router.add_route(
         'POST', '/api/agreements', container.agreement.create_agreement.as_view()
     )
     app.router.add_route(

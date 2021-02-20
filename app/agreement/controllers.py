@@ -41,13 +41,23 @@ async def get_agreements(
         request,
         passenger_mapper,
         agreement_mapper,
-        agreement_transformer
+        agreement_transformer,
+        order_mapper
         ):
     user_id = request.get('user_id')
     # to ensure driver exists
     passenger = await passenger_mapper.get_one_by(user_id=user_id)
 
     order_id = request.match_info.get('order_id')
+    order = await order_mapper.find('order_id')
+
+    if order.driver_id is not None:
+        return web.json_response({
+            'error': 'Driver has already found',
+            'payload': {
+                'driver_id': order.driver_id
+            }
+        })
 
     agreements = await agreement_mapper.find_by(order_id=order_id)
 

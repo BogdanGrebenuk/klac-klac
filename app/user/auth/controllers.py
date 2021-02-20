@@ -56,7 +56,8 @@ async def register_user(
     elif user.role == UserRole.DRIVER.value:
         driver = Driver(
             id=user.id,
-            user_id=user.id
+            user_id=user.id,
+            car_image="chevrolet_camaro_5.jpg"
         )
         user.driver_id = driver.id
         await driver_mapper.create(driver)

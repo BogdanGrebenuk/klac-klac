@@ -24,6 +24,7 @@ Driver = sa.Table(
     metadata,
     sa.Column('id', sa.Text, primary_key=True),
     sa.Column('user_id', sa.Text, sa.ForeignKey("user.id"), nullable=False),
+    sa.Column('car_image', sa.Text,),
 )
 
 Passenger = sa.Table(

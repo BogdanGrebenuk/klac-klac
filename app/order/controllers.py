@@ -8,6 +8,9 @@ from app.order.dto import CreateOrderDto
 
 
 # POST /api/orders
+from app.utils.mapper import EntityNotFound
+
+
 async def create_order(
         request,
         passenger_mapper,
@@ -44,13 +47,34 @@ async def create_order(
 async def get_orders(
         request,
         driver_mapper,
+        passenger_mapper,
         order_mapper,
         order_transformer
         ):
     user_id = request.get('user_id')
-    # to ensure driver exists
-    driver = await driver_mapper.get_one_by(user_id=user_id)
+
+    driver = await driver_mapper.find_one_by(user_id=user_id)
+    if driver is not None:
+        return await get_orders_for_driver(driver, order_mapper, order_transformer)
+
+    passenger = await passenger_mapper.find_one_by(user_id=user_id)
+    if passenger is not None:
+        return await get_orders_for_passenger(passenger, order_mapper, order_transformer)
+
+    raise EntityNotFound('There is no user with such id')
+
+
+async def get_orders_for_driver(driver, order_mapper, order_transformer):
     orders = await order_mapper.find_pending_orders_for_driver(driver)
+    return web.json_response({
+        'orders': await order_transformer.transform_many(orders)
+    })
+
+
+async def get_orders_for_passenger(passenger, order_mapper, order_transformer):
+    orders = await order_mapper.find_by(
+        passenger_id=passenger.id
+    )
     return web.json_response({
         'orders': await order_transformer.transform_many(orders)
     })
@@ -82,10 +106,7 @@ async def get_order_status(
             passenger
         )
 
-    return web.json_response({
-        'error': 'How did you get there?',
-        'payload': {}
-    }, status=400)
+    raise EntityNotFound('There is no user with such id')
 
 
 async def get_order_status_for_passenger(

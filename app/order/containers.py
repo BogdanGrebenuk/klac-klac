@@ -46,6 +46,7 @@ class OrderPackageContainer(containers.DeclarativeContainer):
     get_orders = ext_aiohttp.View(
         get_orders,
         driver_mapper=mappers.driver_mapper,
+        passenger_mapper=mappers.passenger_mapper,
         order_mapper=mappers.order_mapper,
         order_transformer=order_transformer,
     )

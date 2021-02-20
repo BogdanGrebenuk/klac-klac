@@ -8,7 +8,12 @@ from app.user.auth.dto import CreateUserDto, AuthenticateUserDto
 from app.user.domain.role import UserRole
 
 
-async def authenticate_user(request, authenticator):
+async def authenticate_user(
+        request,
+        authenticator,
+        user_mapper,
+        user_transformer
+        ):
     body = await request.json()
 
     token = await authenticator.authenticate(
@@ -18,7 +23,12 @@ async def authenticate_user(request, authenticator):
         )
     )
 
-    return web.json_response({'token': token})
+    user = await user_mapper.find_one_by(email=body.get('email'))
+
+    return web.json_response({
+        'user': await user_transformer.transform(user),
+        'token': token
+    })
 
 
 async def register_user(

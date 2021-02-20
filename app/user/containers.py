@@ -68,7 +68,9 @@ class UserPackageContainer(containers.DeclarativeContainer):
 
     authenticate_user = ext_aiohttp.View(
         authenticate_user,
-        authenticator=authenticator
+        authenticator=authenticator,
+        user_mapper=mappers.user_mapper,
+        user_transformer=user_transformer
     )
 
     logout_user = ext_aiohttp.View(

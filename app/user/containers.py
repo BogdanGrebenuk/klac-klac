@@ -60,6 +60,8 @@ class UserPackageContainer(containers.DeclarativeContainer):
         register_user,
         registrar=registrar,
         user_mapper=mappers.user_mapper,
+        passenger_mapper=mappers.passenger_mapper,
+        driver_mapper=mappers.driver_mapper,
         user_transformer=user_transformer
     )
 

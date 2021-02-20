@@ -2,7 +2,10 @@ import uuid
 
 from aiohttp import web
 
+from app.driver.domain.entity import Driver
+from app.passenger.domain.entity import Passenger
 from app.user.auth.dto import CreateUserDto, AuthenticateUserDto
+from app.user.domain.role import UserRole
 
 
 async def authenticate_user(request, authenticator):
@@ -22,7 +25,9 @@ async def register_user(
         request,
         registrar,
         user_mapper,
-        user_transformer
+        user_transformer,
+        passenger_mapper,
+        driver_mapper
         ):
     body = await request.json()
 
@@ -37,6 +42,21 @@ async def register_user(
             role=body.get('role')
         )
     )
+
+    if user.role == UserRole.PASSENGER.value:
+        passenger = Passenger(
+            id=user.id,
+            user_id=user.id
+        )
+        user.passenger_id = passenger.id
+        await passenger_mapper.create(passenger)
+    elif user.role == UserRole.DRIVER.value:
+        driver = Driver(
+            id=user.id,
+            user_id=user.id
+        )
+        user.driver_id = driver.id
+        await driver_mapper.create(driver)
 
     await user_mapper.create(user)
 

@@ -12,4 +12,6 @@ class User(Entity):
     email: str
     password: str
     role: str
+    driver_id: str
+    passenger_id: str
     token: str = None

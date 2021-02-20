@@ -3,9 +3,17 @@ import logging
 from dependency_injector import containers, providers
 from dependency_injector.ext import aiohttp as ext_aiohttp
 
+from app.agreement.domain.entity import Agreement
 from app.db import models
+from app.db.mappers.agreement import AgreementMapper
+from app.db.mappers.driver import DriverMapper
+from app.db.mappers.order import OrderMapper
+from app.db.mappers.passenger import PassengerMapper
 from app.db.mappers.user import UserMapper
+from app.driver.domain.entity import Driver
 from app.middlewares import error_handler, create_jwt_middleware, request_logger, additional_token_checker
+from app.order.domain.entity import Order
+from app.passenger.domain.entity import Passenger
 from app.user.containers import UserPackageContainer
 from app.user.domain.entity import User
 from app.utils.engine import init_engine
@@ -59,6 +67,34 @@ class MappersContainer(containers.DeclarativeContainer):
         engine=gateways.engine,
         model=models.User,
         entity_cls=User
+    )
+
+    driver_mapper = providers.Singleton(
+        DriverMapper,
+        engine=gateways.engine,
+        model=models.Driver,
+        entity_cls=Driver
+    )
+
+    passenger_mapper = providers.Singleton(
+        PassengerMapper,
+        engine=gateways.engine,
+        model=models.Passenger,
+        entity_cls=Passenger
+    )
+
+    order_mapper = providers.Singleton(
+        OrderMapper,
+        engine=gateways.engine,
+        model=models.Order,
+        entity_cls=Order
+    )
+
+    agreement_mapper = providers.Singleton(
+        AgreementMapper,
+        engine=gateways.engine,
+        model=models.Agreement,
+        entity_cls=Agreement
     )
 
 

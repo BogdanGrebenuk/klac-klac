@@ -2,8 +2,8 @@ from enum import Enum
 
 
 class UserRole(Enum):
-    USER = 'user'
-    ADMIN = 'admin'
+    DRIVER = 'driver'
+    PASSENGER = 'passenger'
 
     @classmethod
     def get_roles(cls):

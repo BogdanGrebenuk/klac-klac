@@ -45,7 +45,7 @@ Order = sa.Table(
     'order',
     metadata,
     sa.Column('id', sa.Text, primary_key=True),
-    sa.Column('from', sa.Text, nullable=False),
+    sa.Column('from_', sa.Text, nullable=False),
     sa.Column('to', sa.Text, nullable=False),
     sa.Column('status', sa.Text, nullable=False),
     sa.Column('driver_id', sa.Text, sa.ForeignKey("driver.id"), nullable=True),

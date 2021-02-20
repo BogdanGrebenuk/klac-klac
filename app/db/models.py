@@ -40,6 +40,7 @@ Order = sa.Table(
     sa.Column('from_', sa.Text, nullable=False),
     sa.Column('to', sa.Text, nullable=False),
     sa.Column('status', sa.Text, nullable=False),
+    sa.Column('image', sa.Text, nullable=True),
     sa.Column('driver_id', sa.Text, sa.ForeignKey("driver.id"), nullable=True),
     sa.Column('passenger_id', sa.Text, sa.ForeignKey("passenger.id"), nullable=False),
 )

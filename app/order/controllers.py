@@ -14,8 +14,9 @@ async def create_order(
         order_transformer
         ):
     user_id = request.get('user_id')
-    body = await request.json()
+    body = await request.post()
     passenger = await passenger_mapper.get_one_by(user_id=user_id)
+    print(body)
 
     order = await order_creator.create(
         CreateOrderDto(
@@ -24,7 +25,9 @@ async def create_order(
             from_=body.get('from'),
             to=body.get('to'),
             status='test'
-        )
+        ),
+        body.get('image'),
+        request.app.public_dir
     )
 
     await order_mapper.create(order)

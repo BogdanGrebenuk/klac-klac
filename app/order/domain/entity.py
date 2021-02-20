@@ -11,3 +11,4 @@ class Order(Entity):
     status: str
     driver_id: str
     passenger_id: str
+    image: str

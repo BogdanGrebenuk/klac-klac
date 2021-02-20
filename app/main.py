@@ -15,6 +15,12 @@ def get_config_path():
     )
 
 
+def get_public_dir():
+    return str(
+        (pathlib.Path(__file__).parent.parent / 'public').resolve()
+    )
+
+
 def create_app():
     application_container = ApplicationContainer()
     application_container.config.from_yaml(get_config_path())
@@ -41,7 +47,8 @@ def create_app():
 
     for route in app.router.routes():
         cors.add(route)
-
+    app.public_dir = get_public_dir()
+    app.add_routes([web.static('/public', app.public_dir)])
     app.on_startup.append(init_resources)
     app.on_shutdown.append(shutdown_resources)
 

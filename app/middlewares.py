@@ -1,20 +1,27 @@
 from aiohttp import web
 from aiohttp_jwt import JWTMiddleware
+from aiohttp_jwt.utils import check_request
 from marshmallow import ValidationError
 
 from app.exceptions.application import AppException
 from app.utils.mapper import EntityNotFound
 
+
 WHITELIST = [
     r"/login",
-    r"/register"
+    r"/register",
+    r"/public",
+    r"/favicon.ico"
 ]
 
 
 async def request_logger(request, handler, logger):
     logger.info(f"{request.method} {request.rel_url}")
     response = await handler(request)
-    logger.info(f"{response.text}")
+    try:
+        logger.info(f"{response.text}")
+    except:
+        pass
     return response
 
 
@@ -60,7 +67,7 @@ def create_jwt_middleware(token_config):
 
 
 async def additional_token_checker(request, handler, user_mapper):
-    if str(request.rel_url) in WHITELIST:
+    if check_request(request, WHITELIST):
         return await handler(request)
 
     payload = request.get('token_payload')

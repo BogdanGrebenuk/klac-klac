@@ -1,3 +1,4 @@
+import asyncio
 import uuid
 
 from aiohttp import web
@@ -11,7 +12,8 @@ async def create_order(
         passenger_mapper,
         order_creator,
         order_mapper,
-        order_transformer
+        order_transformer,
+        order_timeout_checker
         ):
     user_id = request.get('user_id')
     body = await request.post()
@@ -31,6 +33,7 @@ async def create_order(
     )
 
     await order_mapper.create(order)
+    asyncio.create_task(order_timeout_checker.launch(order.id))
 
     return web.json_response({
         'order': await order_transformer.transform(order)

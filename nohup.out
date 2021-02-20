@@ -1,0 +1,122 @@
+
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+======== Running on http://localhost:3000 ========
+(Press CTRL+C to quit)
+======== Running on http://localhost:3000 ========
+(Press CTRL+C to quit)
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+2021-02-20 16:13:47,692 - main - INFO - POST /register
+2021-02-20 16:13:47,693 - main - INFO - {"error": "Validation error", "payload": {"role": ["Must be one of: driver, passenger."]}}
+2021-02-20 16:14:02,735 - main - INFO - POST /register
+2021-02-20 16:14:02,950 - main - INFO - {"error": "__init__() missing 2 required positional arguments: 'driver_id' and 'passenger_id'", "payload": {}}
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+2021-02-20 16:15:16,156 - main - INFO - POST /register
+2021-02-20 16:15:16,377 - main - INFO - {"error": "insert or update on table \"passenger\" violates foreign key constraint \"passenger_user_id_fkey\"\nDETAIL:  Key (user_id)=(784daced-c241-46ea-a2bb-e09cbda425d0) is not present in table \"user\".\n", "payload": {}}
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+2021-02-20 16:17:45,288 - main - INFO - POST /register
+2021-02-20 16:17:45,514 - main - INFO - {"id": "e3fde990-0386-4a4f-b230-138c0d090ab1", "firstName": "kabab", "lastName": "kabab", "patronymic": "kabab", "email": "kabab+passenger@test.com", "role": "passenger"}
+2021-02-20 16:18:02,564 - main - INFO - POST /login
+2021-02-20 16:18:02,770 - main - INFO - {"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiZTNmZGU5OTAtMDM4Ni00YTRmLWIyMzAtMTM4YzBkMDkwYWIxIiwiZXhwIjoxNjEzODM0MjgyfQ.80fh0rtrvfjD2y9B_tsvb6-fLxlvGvuMKLfbvu40i2I"}
+2021-02-20 16:18:42,925 - main - INFO - GET /api/users/me
+2021-02-20 16:18:42,927 - main - INFO - {"user": {"id": "e3fde990-0386-4a4f-b230-138c0d090ab1", "firstName": "kabab", "lastName": "kabab", "patronymic": "kabab", "email": "kabab+passenger@test.com", "role": "passenger"}}
+2021-02-20 16:20:54,640 - main - INFO - POST /api/orders
+2021-02-20 16:20:54,642 - main - INFO - {"error": "Not Found", "payload": {}}
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+2021-02-20 16:21:37,498 - main - INFO - POST /api/orders
+2021-02-20 16:21:37,502 - main - INFO - {"error": "Validation error", "payload": {"from_": ["Field may not be null."], "to": ["Field may not be null."]}}
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+2021-02-20 16:22:17,578 - main - INFO - POST /api/orders
+2021-02-20 16:22:17,583 - main - INFO - {"error": "Validation error", "payload": {"from_": ["Field may not be null."]}}
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+2021-02-20 16:22:38,098 - main - INFO - POST /api/orders
+2021-02-20 16:22:38,103 - main - INFO - {"error": "null value in column \"status\" violates not-null constraint\nDETAIL:  Failing row contains (d0f77d9b-68d4-4faf-8a0b-8c921937442a, to, null, null, e3fde990-0386-4a4f-b230-138c0d090ab1, from).\n", "payload": {}}
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+2021-02-20 16:24:11,124 - main - INFO - POST /api/orders
+2021-02-20 16:24:11,129 - main - INFO - {"error": "null value in column \"status\" violates not-null constraint\nDETAIL:  Failing row contains (6fafe932-9822-407f-b0ec-203f5d3fb864, to, null, null, e3fde990-0386-4a4f-b230-138c0d090ab1, from).\n", "payload": {}}
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+2021-02-20 16:24:42,779 - main - INFO - POST /api/orders
+2021-02-20 16:24:42,791 - main - INFO - {"order": {"id": "7b52ea85-c81b-4e2d-a406-c08baa0ee4b1", "from": "from", "to": "to", "passengerId": "e3fde990-0386-4a4f-b230-138c0d090ab1"}}
+2021-02-20 16:26:16,194 - main - INFO - GET /api/orders
+2021-02-20 16:26:16,196 - main - INFO - {"error": "Method Not Allowed", "payload": {}}
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+2021-02-20 16:26:58,495 - main - INFO - GET /api/orders
+2021-02-20 16:26:58,500 - main - INFO - {"error": "There is no any entity that matches condition.", "payload": {}}
+2021-02-20 16:27:17,401 - main - INFO - POST /register
+2021-02-20 16:27:17,620 - main - INFO - {"id": "893f142c-728b-4bb5-bc2b-d12ce04b732e", "firstName": "kabab", "lastName": "kabab", "patronymic": "kabab", "email": "kabab+driver@test.com", "role": "driver"}
+2021-02-20 16:27:24,920 - main - INFO - POST /login
+2021-02-20 16:27:25,129 - main - INFO - {"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiODkzZjE0MmMtNzI4Yi00YmI1LWJjMmItZDEyY2UwNGI3MzJlIiwiZXhwIjoxNjEzODM0ODQ1fQ.yjUvBs3h3ukUiH7hsilCvmAlYlAg6JfBa3m7pbSBC2o"}
+2021-02-20 16:27:49,250 - main - INFO - GET /api/orders
+2021-02-20 16:27:49,252 - main - INFO - {"orders": [{"id": "7b52ea85-c81b-4e2d-a406-c08baa0ee4b1", "from": "from", "to": "to", "passengerId": "e3fde990-0386-4a4f-b230-138c0d090ab1"}]}
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+2021-02-20 16:40:08,646 - main - INFO - GET /api/orders
+2021-02-20 16:40:08,650 - main - INFO - {"orders": [{"id": "7b52ea85-c81b-4e2d-a406-c08baa0ee4b1", "from": "from", "to": "to", "passengerId": "e3fde990-0386-4a4f-b230-138c0d090ab1"}]}
+2021-02-20 16:42:27,690 - main - INFO - POST /api/agreements
+Signature verification failed
+Traceback (most recent call last):
+  File "/home/bohdan/projects/int20h-back/venv/lib/python3.7/site-packages/aiohttp_jwt/middleware.py", line 84, in jwt_middleware
+    issuer=issuer
+  File "/home/bohdan/projects/int20h-back/venv/lib/python3.7/site-packages/jwt/api_jwt.py", line 92, in decode
+    jwt, key=key, algorithms=algorithms, options=options, **kwargs
+  File "/home/bohdan/projects/int20h-back/venv/lib/python3.7/site-packages/jwt/api_jws.py", line 156, in decode
+    key, algorithms)
+  File "/home/bohdan/projects/int20h-back/venv/lib/python3.7/site-packages/jwt/api_jws.py", line 223, in _verify_signature
+    raise InvalidSignatureError('Signature verification failed')
+jwt.exceptions.InvalidSignatureError: Signature verification failed
+2021-02-20 16:42:27,692 - main - INFO - {"error": "Invalid authorization token, Signature verification failed", "payload": {}}
+2021-02-20 16:42:35,887 - main - INFO - POST /login
+2021-02-20 16:42:36,109 - main - INFO - {"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiODkzZjE0MmMtNzI4Yi00YmI1LWJjMmItZDEyY2UwNGI3MzJlIiwiZXhwIjoxNjEzODM1NzU2fQ.T9I6XcCp_itKukt5DUgPH0d6PXGiNaoMo90ILgJd8QU"}
+2021-02-20 16:42:46,624 - main - INFO - POST /api/agreements
+2021-02-20 16:42:46,630 - main - INFO - {"agreement": {"id": "072e66ae-12d5-4e0e-8b48-8895c3374839", "driverId": "893f142c-728b-4bb5-bc2b-d12ce04b732e", "orderId": "7b52ea85-c81b-4e2d-a406-c08baa0ee4b1"}}
+2021-02-20 16:44:00,766 - main - INFO - POST /login
+2021-02-20 16:44:00,973 - main - INFO - {"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiZTNmZGU5OTAtMDM4Ni00YTRmLWIyMzAtMTM4YzBkMDkwYWIxIiwiZXhwIjoxNjEzODM1ODQwfQ.IMqOCFFHEUm2lryTxKQNXLFzS1RR4lMYsMDu0PwRTBU"}
+2021-02-20 16:44:19,141 - main - INFO - GET /api/agreements
+2021-02-20 16:44:19,142 - main - INFO - {"error": "Method Not Allowed", "payload": {}}
+2021-02-20 16:45:16,843 - main - INFO - GET /api/orders/7b52ea85-c81b-4e2d-a406-c08baa0ee4b1/agreements
+2021-02-20 16:45:16,845 - main - INFO - {"agreements": [{"id": "072e66ae-12d5-4e0e-8b48-8895c3374839", "driverId": "893f142c-728b-4bb5-bc2b-d12ce04b732e", "orderId": "7b52ea85-c81b-4e2d-a406-c08baa0ee4b1"}]}
+2021-02-20 16:46:30,811 - main - INFO - POST /api/agreements/072e66ae-12d5-4e0e-8b48-8895c3374839/select
+2021-02-20 16:46:30,816 - main - INFO - {"agreement": {"id": "072e66ae-12d5-4e0e-8b48-8895c3374839", "driverId": "893f142c-728b-4bb5-bc2b-d12ce04b732e", "orderId": "7b52ea85-c81b-4e2d-a406-c08baa0ee4b1"}}
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+2021-02-20 17:57:05,917 - main - INFO - POST /login
+2021-02-20 17:57:06,137 - main - INFO - {"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiZTNmZGU5OTAtMDM4Ni00YTRmLWIyMzAtMTM4YzBkMDkwYWIxIiwiZXhwIjoxNjEzODQwMjI2fQ.SY0XyWz0g8QDIanUO4fJpbimw3ciBYHjqBZB4sO6RUE"}
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+2021-02-20 18:33:02,786 - main - INFO - POST /login
+2021-02-20 18:33:03,006 - main - INFO - {"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiZTNmZGU5OTAtMDM4Ni00YTRmLWIyMzAtMTM4YzBkMDkwYWIxIiwiZXhwIjoxNjEzODQyMzgyfQ.HUvl24guxcgEGm_IhC9r_ZsrEtJicuXqcH0CK0nr1Fc"}
+2021-02-20 18:33:17,821 - main - INFO - POST /api/orders
+2021-02-20 18:33:17,823 - main - INFO - {"error": "create_order() missing 1 required positional argument: 'order_timeout_checker'", "payload": {}}
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+2021-02-20 18:35:48,475 - main - INFO - POST /api/orders
+2021-02-20 18:35:48,477 - main - INFO - {"error": "__init__() got an unexpected keyword argument 'aggrement_mapper'", "payload": {}}
+======== Running on http://localhost:8000 ========
+(Press CTRL+C to quit)
+2021-02-20 18:36:06,072 - main - INFO - POST /api/orders
+2021-02-20 18:36:06,085 - main - INFO - {"order": {"id": "8a6c59fd-68ec-493e-b3fe-0dcd7d1b27e6", "from": "from", "to": "to", "passengerId": "e3fde990-0386-4a4f-b230-138c0d090ab1"}}
+2021-02-20 18:36:06,085 - main - INFO - [8a6c59fd-68ec-493e-b3fe-0dcd7d1b27e6] sleep 30 seconds
+2021-02-20 18:36:36,112 - main - INFO - [8a6c59fd-68ec-493e-b3fe-0dcd7d1b27e6] start to check order
+Task exception was never retrieved
+future: <Task finished coro=<OrderTimeoutChecker.launch() done, defined at /home/bohdan/projects/int20h-back/app/order/services.py:34> exception=TypeError("object of type 'coroutine' has no len()")>
+Traceback (most recent call last):
+  File "/usr/lib/python3.7/asyncio/tasks.py", line 249, in __step
+    result = coro.send(None)
+  File "/home/bohdan/projects/int20h-back/app/order/services.py", line 44, in launch
+    if len(agreements) == 0:
+TypeError: object of type 'coroutine' has no len()
+sys:1: RuntimeWarning: coroutine 'Mapper.find' was never awaited
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+sys:1: RuntimeWarning: coroutine 'Mapper.find_by' was never awaited
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback

@@ -32,6 +32,13 @@ async def create_agreement(
             }
         }, status=400)
 
+    current_agreement = await agreement_mapper.find_current(driver)
+    if current_agreement is not None:
+        return web.json_response({
+            'error': 'You\'ve already created agreement',
+            'payload': {}
+        }, status=400)
+
     agreement = await agreement_creator.create_agreement(
         CreateAgreementDto(
             id=str(uuid.uuid4()),

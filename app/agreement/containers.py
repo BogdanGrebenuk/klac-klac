@@ -13,7 +13,10 @@ class AgreementPackageContainer(containers.DeclarativeContainer):
 
     # services
 
-    agreement_transformer = providers.Singleton(AgreementTransformer)
+    agreement_transformer = providers.Singleton(
+        AgreementTransformer,
+        user_mapper=mappers.user_mapper
+    )
 
     agreement_creator = providers.Singleton(
         AgreementCreator,

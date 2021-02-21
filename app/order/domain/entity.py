@@ -12,3 +12,4 @@ class Order(Entity):
     driver_id: str
     passenger_id: str
     image: str
+    geolocation: str

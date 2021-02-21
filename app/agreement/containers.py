@@ -15,7 +15,8 @@ class AgreementPackageContainer(containers.DeclarativeContainer):
 
     agreement_transformer = providers.Singleton(
         AgreementTransformer,
-        user_mapper=mappers.user_mapper
+        user_mapper=mappers.user_mapper,
+        driver_mapper=mappers.driver_mapper
     )
 
     agreement_creator = providers.Singleton(

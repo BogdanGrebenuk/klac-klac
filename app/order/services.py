@@ -27,7 +27,8 @@ class OrderCreator:
             passenger_id=create_order_dto.passenger_id,
             driver_id=None,
             status=create_order_dto.status,
-            image=file_name
+            image=file_name,
+            geolocation=None
         )
 
         return order

@@ -9,6 +9,7 @@ class OrderTransformer(Transformer):
             'from': order.from_,
             'to': order.to,
             'passengerId': order.passenger_id,
+            'driverId': order.driver_id,
             'status': order.status,
             'image': order.image
         }

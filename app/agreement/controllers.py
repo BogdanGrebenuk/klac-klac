@@ -129,6 +129,14 @@ async def select_agreement(
     agreement = await agreement_mapper.get_one_by(id=agreement_id)
     order = await order_mapper.get_one_by(id=agreement.order_id)
 
+    if order.status != PassengerOrderStatus.SEARCHING:
+        return web.json_response({
+            'error': 'Order has non-initial status',
+            'payload': {
+                'status': order.status
+            }
+        }, status=400)
+
     order.driver_id = agreement.driver_id
     order.status = PassengerOrderStatus.IN_MID_COURSE.value
 

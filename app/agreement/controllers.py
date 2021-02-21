@@ -89,7 +89,7 @@ async def get_agreements(
     passenger = await passenger_mapper.get_one_by(user_id=user_id)
 
     order_id = request.match_info.get('order_id')
-    order = await order_mapper.find('order_id')
+    order = await order_mapper.get(order_id)
 
     if order.driver_id is not None:
         return web.json_response({

@@ -97,7 +97,7 @@ async def get_order(
             order_transformer
         )
 
-    passenger = await passenger_mapper.find_one_by(user=user_id)
+    passenger = await passenger_mapper.find_one_by(user_id=user_id)
     if passenger is not None:
         return await get_order_for_passenger(
             request,

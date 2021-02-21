@@ -59,7 +59,7 @@ async def get_current_agreement(
     if current_agreement is None:
         raise EntityNotFound("You have no current agreement")
 
-    order = await order_mapper.find_by(id=current_agreement.order_id)
+    order = await order_mapper.find_one_by(id=current_agreement.order_id)
 
     if order.driver_id is None:
         return web.json_response({

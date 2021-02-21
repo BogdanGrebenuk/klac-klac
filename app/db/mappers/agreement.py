@@ -21,7 +21,7 @@ class AgreementMapper(Mapper):
                 select([self.model])
                 .select_from(join)
                 .where(
-                    (self.model.c.id == driver.id)
+                    (self.model.c.driver_id == driver.id)
                     & (
                         (OrderModel.c.status == PassengerOrderStatus.SEARCHING.value)
                         | (OrderModel.c.status == PassengerOrderStatus.IN_MID_COURSE.value)

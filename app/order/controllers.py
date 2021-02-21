@@ -27,7 +27,8 @@ async def create_order(
             passenger_id=passenger.id,
             from_=body.get('from'),
             to=body.get('to'),
-            status=PassengerOrderStatus.SEARCHING.value
+            status=PassengerOrderStatus.SEARCHING.value,
+            geolocation='geolocation'
         ),
         body.get('image'),
         request.app.public_dir

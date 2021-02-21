@@ -11,5 +11,6 @@ class OrderTransformer(Transformer):
             'passengerId': order.passenger_id,
             'driverId': order.driver_id,
             'status': order.status,
-            'image': order.image
+            'image': order.image,
+            'geolocation': order.geolocation
         }

@@ -44,6 +44,7 @@ Order = sa.Table(
     sa.Column('image', sa.Text, nullable=True),
     sa.Column('driver_id', sa.Text, sa.ForeignKey("driver.id", ondelete="CASCADE"), nullable=True),
     sa.Column('passenger_id', sa.Text, sa.ForeignKey("passenger.id", ondelete="CASCADE"), nullable=False),
+    sa.Column('geolocation', sa.Text, nullable=True),
 )
 
 Agreement = sa.Table(

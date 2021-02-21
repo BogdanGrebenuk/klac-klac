@@ -34,7 +34,8 @@ class AgreementPackageContainer(containers.DeclarativeContainer):
         get_agreements,
         passenger_mapper=mappers.passenger_mapper,
         agreement_mapper=mappers.agreement_mapper,
-        agreement_transformer=agreement_transformer
+        agreement_transformer=agreement_transformer,
+        order_mapper=mappers.order_mapper
     )
 
     select_agreement = ext_aiohttp.View(

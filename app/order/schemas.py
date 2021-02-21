@@ -7,3 +7,4 @@ class CreateOrderSchema(Schema):
     to = fields.String(required=True)
     passenger_id = fields.String(required=True)
     status = fields.String(required=True)
+    geolocation = fields.String(required=True)

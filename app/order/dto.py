@@ -8,3 +8,4 @@ class CreateOrderDto:
     from_: str
     to: str
     status: str
+    geolocation: str

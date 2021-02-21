@@ -31,7 +31,8 @@ def create_app():
             application_container.middlewares.error_handler,
             application_container.middlewares.jwt_middleware(),
             application_container.middlewares.additional_token_checker,
-        ]
+        ],
+        client_max_size=20971520
     )
     app.container = application_container
     setup_routes(app)
